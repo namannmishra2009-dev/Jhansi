@@ -76,7 +76,7 @@ button{
 
 <!-- Background music -->
 <audio id="bgMusic" loop>
-  <source src="https://cdn.pixabay.com/audio/2023/05/01/audio_wajahtumho.mp3" type="audio/mpeg">
+  <source src="Mann Mera – Gajendra Verma Ringtone Download - MobCup.Com.Co.mp3" type="audio/mpeg">
 </audio>
 
 <div class="card" id="startCard">
@@ -89,6 +89,8 @@ button{
 <div class="card" id="loveCard" style="display:none;">
   <div class="message" id="message"></div>
   <img id="cat" class="cat" src="https://media.giphy.com/media/3o6ZtpxSZbQRRnwCKQ/giphy.gif">
+  <br>
+  <button id="playPauseBtn" onclick="toggleMusic()">Play / Pause Music 🎵</button>
 </div>
 
 <script>
@@ -107,10 +109,9 @@ function startLove(){
   // Show cat GIF
   document.getElementById('cat').style.display='block';
 
-  // Play music (Android first tap works)
+  // Play music (guaranteed after click)
   const audio=document.getElementById('bgMusic');
   audio.play().catch(()=>{
-    // if autoplay fails, wait for user interaction
     document.body.addEventListener('click',()=>audio.play(),{once:true});
   });
 
@@ -126,6 +127,15 @@ function createHeart(){
   h.style.animationDuration=(3+Math.random()*4)+"s";
   document.body.appendChild(h);
   setTimeout(()=>h.remove(),7000);
+}
+
+function toggleMusic(){
+  const audio=document.getElementById('bgMusic');
+  if(audio.paused){
+    audio.play();
+  }else{
+    audio.pause();
+  }
 }
 </script>
 </body>
