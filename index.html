@@ -19,124 +19,136 @@ body{
 }
 .card{
   background:#fff;
-  padding:30px;
+  padding:25px;
   border-radius:20px;
   box-shadow:0 10px 25px rgba(0,0,0,.2);
   text-align:center;
   width:90%;
-  max-width:400px;
+  max-width:420px;
   position:relative;
-  z-index:2;
-}
-input{
-  width:80%;
-  padding:10px;
-  border-radius:10px;
-  border:1px solid #ccc;
-  font-size:16px;
 }
 button{
-  margin-top:15px;
-  padding:10px 20px;
+  margin:10px;
+  padding:10px 22px;
   border:none;
   border-radius:20px;
   background:#ff4d6d;
   color:#fff;
   font-size:16px;
   cursor:pointer;
+  position:relative;
 }
 .message{
-  display:none;
-  margin-top:20px;
   font-size:28px;
-  font-family:'Comic Sans MS', cursive, sans-serif;
+  font-family:'Comic Sans MS', cursive;
   color:#ff4d6d;
 }
+.poem{
+  margin-top:15px;
+  font-size:17px;
+  color:#333;
+  line-height:1.6;
+}
 .cat{
+  width:90px;
   position:absolute;
   right:-90px;
   top:50%;
   transform:translateY(-50%);
-  width:90px;
-  display:none;
-}
-.heart{
-  position:absolute;
-  bottom:-20px;
-  font-size:20px;
-  animation:float 6s linear infinite;
-}
-@keyframes float{
-  from{transform:translateY(0);opacity:1;}
-  to{transform:translateY(-120vh);opacity:0;}
 }
 </style>
 </head>
 <body>
 
-<!-- Background music -->
 <audio id="bgMusic" loop>
   <source src="Mann Mera – Gajendra Verma Ringtone Download - MobCup.Com.Co.mp3" type="audio/mpeg">
 </audio>
 
-<div class="card" id="startCard">
+<!-- PAGE 1 -->
+<div class="card" id="page1">
   <h2>Type Your Name 💖</h2>
-  <input id="nameInput" placeholder="Her name">
+  <input id="nameInput" placeholder="Her name" style="padding:10px;border-radius:10px;border:1px solid #ccc;">
   <br>
-  <button onclick="startLove()">Yes</button>
+  <button onclick="showLove()">Yes</button>
 </div>
 
-<div class="card" id="loveCard" style="display:none;">
-  <div class="message" id="message"></div>
-  <img id="cat" class="cat" src="https://media.giphy.com/media/3o6ZtpxSZbQRRnwCKQ/giphy.gif">
-  <br>
-  <button id="playPauseBtn" onclick="toggleMusic()">Play / Pause Music 🎵</button>
+<!-- PAGE 2 -->
+<div class="card" id="page2" style="display:none;">
+  <div class="message" id="loveText"></div>
+  <img class="cat" src="https://media.giphy.com/media/3o6ZtpxSZbQRRnwCKQ/giphy.gif">
+  <br><br>
+  <button onclick="nextPage()">Next ❤️</button>
+</div>
+
+<!-- PAGE 3 -->
+<div class="card" id="page3" style="display:none;">
+  <div class="poem">
+    Tumhare saath har subah ka sapna sajaya hai,<br>
+    Har shaam ko tumhare naam se hi bulaya hai.<br>
+    Zindagi ke har mod par tumhara haath thaam kar,<br>
+    Khud ko maine tum mein hi paaya hai.
+  </div>
+
+  <div class="poem">
+    Agar kal ka har faisla poochhe mujhse jawaab,<br>
+    Toh meri khamoshi bhi tumhara naam hi likhegi janab.<br>
+    Saath tumhara ho toh har mushkil aasaan lage,<br>
+    Tum bin yeh duniya bhi thodi veeran lage.
+  </div>
+
+  <h3 style="margin-top:20px;color:#ff4d6d;">
+    Will you marry me, my sweetheart? 💍❤️
+  </h3>
+
+  <button onclick="yesClicked()">Yes 💖</button>
+  <button id="noBtn" onmouseover="runAway()">No 😔</button>
+</div>
+
+<!-- PAGE 4 (FINAL ROMANTIC PAGE) -->
+<div class="card" id="page4" style="display:none;">
+  <h2 style="color:#ff4d6d;font-family:'Comic Sans MS',cursive;">
+    Thank you my love ❤️
+  </h2>
+
+  <p class="poem">
+    Aaj se tum sirf meri mohabbat nahi,<br>
+    Meri zindagi, meri dua, meri har subah ho 💕<br><br>
+
+    Har saans mein tumhara naam hoga,<br>
+    Har khushi mein tumhara haath hoga.<br><br>
+
+    Thank you my wife,<br>
+    Meri duniya banne ke liye 💍❤️
+  </p>
 </div>
 
 <script>
-function startLove(){
-  const name=document.getElementById("nameInput").value.trim();
-  if(!name){ alert("Please type your name 😊"); return; }
-
-  // Hide start card, show love card
-  document.getElementById('startCard').style.display='none';
-  document.getElementById('loveCard').style.display='block';
-
-  // Set love message with bigger cute font
-  document.getElementById('message').innerHTML=name+", I am yours ❤️❤️<br>I love you 💕";
-  document.getElementById('message').style.display='block';
-
-  // Show cat GIF
-  document.getElementById('cat').style.display='block';
-
-  // Play music (guaranteed after click)
-  const audio=document.getElementById('bgMusic');
-  audio.play().catch(()=>{
-    document.body.addEventListener('click',()=>audio.play(),{once:true});
-  });
-
-  // Create floating hearts
-  for(let i=0;i<25;i++) createHeart();
+function showLove(){
+  const name=document.getElementById('nameInput').value.trim();
+  if(!name){alert('Please type your name');return;}
+  document.getElementById('page1').style.display='none';
+  document.getElementById('page2').style.display='block';
+  document.getElementById('loveText').innerHTML=name+", I am yours ❤️<br>I love you 💕";
+  document.getElementById('bgMusic').play();
 }
 
-function createHeart(){
-  const h=document.createElement("div");
-  h.className="heart";
-  h.innerHTML="❤️";
-  h.style.left=Math.random()*100+"vw";
-  h.style.animationDuration=(3+Math.random()*4)+"s";
-  document.body.appendChild(h);
-  setTimeout(()=>h.remove(),7000);
+function nextPage(){
+  document.getElementById('page2').style.display='none';
+  document.getElementById('page3').style.display='block';
 }
 
-function toggleMusic(){
-  const audio=document.getElementById('bgMusic');
-  if(audio.paused){
-    audio.play();
-  }else{
-    audio.pause();
-  }
+function yesClicked(){
+  document.getElementById('page3').style.display='none';
+  document.getElementById('page4').style.display='block';
+}
+
+function runAway(){
+  const btn=document.getElementById('noBtn');
+  const x=Math.random()*200-100;
+  const y=Math.random()*200-100;
+  btn.style.transform=`translate(${x}px,${y}px)`;
 }
 </script>
+
 </body>
 </html>
