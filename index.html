@@ -1,146 +1,132 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <!-- PWA & Fullscreen App Support -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#ff4d6d">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta charset="UTF-8">
-  <title>For You ❤️</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #ffdee9, #b5fffc);
-      height: 100vh;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin: 0;
-    }
-    .card {
-      background: white;
-      padding: 30px;
-      border-radius: 20px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-      text-align: center;
-      max-width: 400px;
-      width: 100%;
-      position: relative;
-      z-index: 2;
-    }
-    input {
-      padding: 10px;
-      width: 80%;
-      border-radius: 10px;
-      border: 1px solid #ccc;
-      font-size: 16px;
-    }
-    button {
-      margin-top: 15px;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 20px;
-      background: #ff4d6d;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #e63e5c;
-    }
-    .message {
-      margin-top: 20px;
-      font-size: 20px;
-      display: none;
-    }
-    .cat {
-      position: absolute;
-      right: -80px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 90px;
-      display: none;
-    }
-    @keyframes dance {
-      0% { transform: translateY(-50%) rotate(-15deg); }
-      100% { transform: translateY(-50%) rotate(15deg); }
-    }/* Floating hearts */
-.heart {
-  position: absolute;
-  bottom: -20px;
-  font-size: 20px;
-  animation: floatUp 6s linear infinite;
-  opacity: 0.8;
+<meta charset="UTF-8">
+<title>For You ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#ff4d6d">
+<meta name="mobile-web-app-capable" content="yes">
+<style>
+body{
+  margin:0;
+  height:100vh;
+  overflow:hidden;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:linear-gradient(135deg,#ffdee9,#b5fffc);
+  font-family:Arial, sans-serif;
 }
-@keyframes floatUp {
-  0% { transform: translateY(0) scale(0.8); opacity: 1; }
-  100% { transform: translateY(-110vh) scale(1.5); opacity: 0; }
+.card{
+  background:#fff;
+  padding:30px;
+  border-radius:20px;
+  box-shadow:0 10px 25px rgba(0,0,0,.2);
+  text-align:center;
+  width:90%;
+  max-width:400px;
+  position:relative;
+  z-index:2;
 }
-
-  </style>
+input{
+  width:80%;
+  padding:10px;
+  border-radius:10px;
+  border:1px solid #ccc;
+  font-size:16px;
+}
+button{
+  margin-top:15px;
+  padding:10px 20px;
+  border:none;
+  border-radius:20px;
+  background:#ff4d6d;
+  color:#fff;
+  font-size:16px;
+  cursor:pointer;
+}
+.message{
+  display:none;
+  margin-top:20px;
+  font-size:28px;
+  font-family:'Comic Sans MS', cursive, sans-serif;
+  color:#ff4d6d;
+}
+.cat{
+  position:absolute;
+  right:-90px;
+  top:50%;
+  transform:translateY(-50%);
+  width:90px;
+  display:none;
+}
+.heart{
+  position:absolute;
+  bottom:-20px;
+  font-size:20px;
+  animation:float 6s linear infinite;
+}
+@keyframes float{
+  from{transform:translateY(0);opacity:1;}
+  to{transform:translateY(-120vh);opacity:0;}
+}
+</style>
 </head>
 <body>
-  <script>
-    // Auto fullscreen prompt (Android)
-    document.addEventListener('click', () => {
-      const el = document.documentElement;
-      if (el.requestFullscreen) el.requestFullscreen();
-    }, { once: true });
-  </script>  <!-- Background Music -->  <audio id="bgMusic" loop>
-    <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_4b9f8c7c5d.mp3" type="audio/mpeg">
-  </audio>  <div class="card">
-    <h2>Type Your Name 💖</h2>
-    <input type="text" id="nameInput" placeholder="Her name">
-    <br>
-    <button onclick="showLove()">Click Here</button>
-    <br><br>
-    <a id="waLink" href="#" target="_blank" style="display:none; text-decoration:none;">
-      <button style="background:#25D366;">Share on WhatsApp 💬</button>
-    </a><div class="message" id="message"></div>
-<img class="cat" id="cat" src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif" alt="Dancing Cat">
 
-  </div>  <script>
-    function showLove() {
-      const name = document.getElementById('nameInput').value;
-      if (name.trim() === '') {
-        alert('Please type your name 😊');
-        return;
-      }
+<!-- Background music -->
+<audio id="bgMusic" loop>
+  <source src="https://cdn.pixabay.com/audio/2023/05/01/audio_wajahtumho.mp3" type="audio/mpeg">
+</audio>
 
-      const messageDiv = document.getElementById('message');
-      messageDiv.innerHTML = name + ", I am yours ❤️❤️<br>I love you 💕";
-      messageDiv.style.display = 'block';
+<div class="card" id="startCard">
+  <h2>Type Your Name 💖</h2>
+  <input id="nameInput" placeholder="Her name">
+  <br>
+  <button onclick="startLove()">Yes</button>
+</div>
 
-      // Create WhatsApp share link (Android friendly)
-      const text = encodeURIComponent(name + ", I am yours ❤️❤️ I love you 💕");
-      const wa = document.getElementById('waLink');
-      wa.href = "https://wa.me/?text=" + text;
-      wa.style.display = 'inline-block';
+<div class="card" id="loveCard" style="display:none;">
+  <div class="message" id="message"></div>
+  <img id="cat" class="cat" src="https://media.giphy.com/media/3o6ZtpxSZbQRRnwCKQ/giphy.gif">
+</div>
 
-      document.getElementById('cat').style.display = 'block';
+<script>
+function startLove(){
+  const name=document.getElementById("nameInput").value.trim();
+  if(!name){ alert("Please type your name 😊"); return; }
 
-      // Play music
-      document.getElementById('bgMusic').play();
+  // Hide start card, show love card
+  document.getElementById('startCard').style.display='none';
+  document.getElementById('loveCard').style.display='block';
 
-      // Create floating hearts
-      for (let i = 0; i < 20; i++) {
-        createHeart();
-      }
-    }
+  // Set love message with bigger cute font
+  document.getElementById('message').innerHTML=name+", I am yours ❤️❤️<br>I love you 💕";
+  document.getElementById('message').style.display='block';
 
-    function createHeart() {
-      const heart = document.createElement('div');
-      heart.className = 'heart';
-      heart.innerHTML = '❤️';
-      heart.style.left = Math.random() * 100 + 'vw';
-      heart.style.animationDuration = (3 + Math.random() * 4) + 's';
-      document.body.appendChild(heart);
+  // Show cat GIF
+  document.getElementById('cat').style.display='block';
 
-      setTimeout(() => {
-        heart.remove();
-      }, 7000);
-    }
-  </script></body>
+  // Play music (Android first tap works)
+  const audio=document.getElementById('bgMusic');
+  audio.play().catch(()=>{
+    // if autoplay fails, wait for user interaction
+    document.body.addEventListener('click',()=>audio.play(),{once:true});
+  });
+
+  // Create floating hearts
+  for(let i=0;i<25;i++) createHeart();
+}
+
+function createHeart(){
+  const h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="❤️";
+  h.style.left=Math.random()*100+"vw";
+  h.style.animationDuration=(3+Math.random()*4)+"s";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),7000);
+}
+</script>
+</body>
 </html>
