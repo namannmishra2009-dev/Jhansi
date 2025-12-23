@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <title>For You ❤️</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#ff4d6d">
-<meta name="mobile-web-app-capable" content="yes">
+
 <style>
 body{
   margin:0;
@@ -26,6 +26,7 @@ body{
   width:90%;
   max-width:420px;
   position:relative;
+  z-index:2;
 }
 button{
   margin:10px;
@@ -36,7 +37,6 @@ button{
   color:#fff;
   font-size:16px;
   cursor:pointer;
-  position:relative;
 }
 .message{
   font-size:28px;
@@ -56,8 +56,25 @@ button{
   top:50%;
   transform:translateY(-50%);
 }
+
+/* HEART SHOWER */
+.heart{
+  position:fixed;
+  top:-10px;
+  font-size:20px;
+  animation:fall linear forwards;
+  color:#ff4d6d;
+  z-index:1;
+}
+@keyframes fall{
+  to{
+    transform:translateY(110vh);
+    opacity:0;
+  }
+}
 </style>
 </head>
+
 <body>
 
 <audio id="bgMusic" loop>
@@ -67,7 +84,8 @@ button{
 <!-- PAGE 1 -->
 <div class="card" id="page1">
   <h2>Type Your Name 💖</h2>
-  <input id="nameInput" placeholder="Her name" style="padding:10px;border-radius:10px;border:1px solid #ccc;">
+  <input id="nameInput" placeholder="Her name"
+    style="padding:10px;border-radius:10px;border:1px solid #ccc;">
   <br>
   <button onclick="showLove()">Yes</button>
 </div>
@@ -92,8 +110,7 @@ button{
   <div class="poem">
     Agar kal ka har faisla poochhe mujhse jawaab,<br>
     Toh meri khamoshi bhi tumhara naam hi likhegi janab.<br>
-    Saath tumhara ho toh har mushkil aasaan lage,<br>
-    Tum bin yeh duniya bhi thodi veeran lage.
+    Yeh dil aaj ek wada maangta hai tumse…
   </div>
 
   <h3 style="margin-top:20px;color:#ff4d6d;">
@@ -104,20 +121,20 @@ button{
   <button id="noBtn" onmouseover="runAway()">No 😔</button>
 </div>
 
-<!-- PAGE 4 (FINAL ROMANTIC PAGE) -->
+<!-- PAGE 4 -->
 <div class="card" id="page4" style="display:none;">
   <h2 style="color:#ff4d6d;font-family:'Comic Sans MS',cursive;">
-    Thank you my love ❤️
+    Thank you my wife ❤️
   </h2>
 
   <p class="poem">
-    Aaj se tum sirf meri mohabbat nahi,<br>
+    Aaj se tum meri mohabbat hi nahi,<br>
     Meri zindagi, meri dua, meri har subah ho 💕<br><br>
 
-    Har saans mein tumhara naam hoga,<br>
-    Har khushi mein tumhara haath hoga.<br><br>
+    Har saans tumhare naam ki hogi,<br>
+    Har khushi tumhare saath hogi.<br><br>
 
-    Thank you my wife,<br>
+    Thank you meri jaan,<br>
     Meri duniya banne ke liye 💍❤️
   </p>
 </div>
@@ -125,28 +142,40 @@ button{
 <script>
 function showLove(){
   const name=document.getElementById('nameInput').value.trim();
-  if(!name){alert('Please type your name');return;}
-  document.getElementById('page1').style.display='none';
-  document.getElementById('page2').style.display='block';
-  document.getElementById('loveText').innerHTML=name+", I am yours ❤️<br>I love you 💕";
-  document.getElementById('bgMusic').play();
+  if(!name){ alert('Please type your name'); return; }
+  page1.style.display='none';
+  page2.style.display='block';
+  loveText.innerHTML=name+", I am yours ❤️<br>I love you 💕";
+  bgMusic.play();
 }
 
 function nextPage(){
-  document.getElementById('page2').style.display='none';
-  document.getElementById('page3').style.display='block';
+  page2.style.display='none';
+  page3.style.display='block';
 }
 
 function yesClicked(){
-  document.getElementById('page3').style.display='none';
-  document.getElementById('page4').style.display='block';
+  page3.style.display='none';
+  page4.style.display='block';
+  startHearts();
 }
 
 function runAway(){
   const btn=document.getElementById('noBtn');
-  const x=Math.random()*200-100;
-  const y=Math.random()*200-100;
-  btn.style.transform=`translate(${x}px,${y}px)`;
+  btn.style.transform=`translate(${Math.random()*200-100}px,${Math.random()*200-100}px)`;
+}
+
+/* HEART SHOWER */
+function startHearts(){
+  setInterval(()=>{
+    const heart=document.createElement('div');
+    heart.className='heart';
+    heart.innerHTML='❤️';
+    heart.style.left=Math.random()*100+'vw';
+    heart.style.animationDuration=(Math.random()*3+2)+'s';
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),5000);
+  },300);
 }
 </script>
 
