@@ -1,4 +1,4 @@
-// Template message (use %%NAME%% where the recipient's name should appear)
+// Template message: use %%NAME%% where the recipient's name should appear
 let messageTemplate = [
 `My dearest %%NAME%%,`,
 ``,
@@ -9,7 +9,7 @@ let messageTemplate = [
 `Forever isn't long enough with you.`,
 ``,
 `Always yours,`,
-`[Your Name] ❤️`
+`Namann ❤️`
 ].join('\n');
 
 const messageEl = document.getElementById('message');
@@ -23,14 +23,10 @@ const photoPlaceholder = document.getElementById('photoPlaceholder');
 const musicToggle = document.getElementById('musicToggle');
 const bgMusic = document.getElementById('bgMusic');
 
-const nameInput = document.getElementById('nameInput');
-const nameOkBtn = document.getElementById('nameOkBtn');
-const toNameEl = document.getElementById('toName');
-
 let typed = false;
 let typingTimer = null;
 
-// Helper: escape HTML to avoid XSS when inserting names
+// Helper: escape HTML to avoid XSS when injecting text from the page
 function escapeHtml(s){ return String(s).replace(/[&<>\"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 
 // Typewriter effect
@@ -139,56 +135,29 @@ photoPlaceholder.addEventListener('click', async () => {
   input.click();
 });
 
-// Name input handling
-function setRecipientName(name) {
-  if (!name) return;
-  const safe = escapeHtml(name.trim());
-  // update header
-  toNameEl.innerHTML = `To: <strong>${safe}</strong>`;
-  // replace in message
-  const replaced = messageTemplate.replace(/%%NAME%%/g, safe);
-  // save to localStorage
-  try { localStorage.setItem('recipientName', safe); } catch(e) {}
-  // show a short animated heart-burst and try to play music
-  burstHearts(10);
-  musicToggle.checked = true;
-  // Try to play music (this is a result of a user gesture — allowed)
-  bgMusic.play().catch(()=>{ /* ignore play errors */ });
-  return replaced;
+// Helper to read recipient name from the DOM (To: <strong>...</strong>)
+function getRecipientName() {
+  try {
+    const strong = document.querySelector('#toName strong');
+    if (strong && strong.textContent && strong.textContent.trim() !== '') {
+      return escapeHtml(strong.textContent.trim());
+    }
+  } catch(e){}
+  return '[Her Name]';
 }
-
-nameOkBtn.addEventListener('click', () => {
-  const name = nameInput.value;
-  if (!name) return;
-  const message = setRecipientName(name);
-  // type short confirmation
-  typeMessage(`Hello ${escapeHtml(name)}! Click "Open Your Letter" to see your message ❤️`, messageEl, 20);
-});
-
-nameInput.addEventListener('keydown', (ev) => {
-  if (ev.key === 'Enter') {
-    ev.preventDefault();
-    nameOkBtn.click();
-  }
-});
 
 // Buttons
 openBtn.addEventListener('click', () => {
-  // if a name is stored, inject it; otherwise use template with placeholder text
-  const stored = localStorage.getItem('recipientName');
-  let finalMessage;
-  if (stored) finalMessage = messageTemplate.replace(/%%NAME%%/g, stored);
-  else finalMessage = messageTemplate.replace(/%%NAME%%/g, '[Her Name]');
+  const recipient = getRecipientName();
+  const finalMessage = messageTemplate.replace(/%%NAME%%/g, recipient);
   typeMessage(finalMessage, messageEl, 18);
   makeConfetti();
   burstHearts(12);
   if (musicToggle.checked) bgMusic.play().catch(()=>{});
 });
 replayBtn.addEventListener('click', () => {
-  const stored = localStorage.getItem('recipientName');
-  let finalMessage;
-  if (stored) finalMessage = messageTemplate.replace(/%%NAME%%/g, stored);
-  else finalMessage = messageTemplate.replace(/%%NAME%%/g, '[Her Name]');
+  const recipient = getRecipientName();
+  const finalMessage = messageTemplate.replace(/%%NAME%%/g, recipient);
   typeMessage(finalMessage, messageEl, 12);
   burstHearts(8);
 });
@@ -206,8 +175,7 @@ heartBtn.addEventListener('click', (e) => {
 
 // click anywhere to drop a heart
 document.addEventListener('click', (ev) => {
-  // ignore if clicking buttons or photo (we have separate handlers)
-  const tag = ev.target.tagName ? ev.target.tagName.toLowerCase() : '';
+  const tag = ev.target && ev.target.tagName ? ev.target.tagName.toLowerCase() : '';
   if (['button','input','img'].includes(tag)) return;
   createHeart(ev.clientX, ev.clientY);
 });
@@ -220,15 +188,7 @@ musicToggle.addEventListener('change', () => {
 
 // initial auto-type briefly after load
 window.addEventListener('load', () => {
-  // restore name if present
-  try {
-    const stored = localStorage.getItem('recipientName');
-    if (stored) {
-      toNameEl.innerHTML = `To: <strong>${escapeHtml(stored)}</strong>`;
-      nameInput.value = stored;
-    }
-  } catch(e){}
-  setTimeout(()=> typeMessage("Write your name above and click OK to make this letter just for you \u2764\uFE0F", messageEl, 30), 700);
+  setTimeout(()=> typeMessage("Click \"Open Your Letter\" to see a special message \u2764\uFE0F", messageEl, 30), 700);
 });
 
 // handle resize for confetti canvas
