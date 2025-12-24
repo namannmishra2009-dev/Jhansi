@@ -1,186 +1,69 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>For You ❤️</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#ff4d6d">
-<style>
-body{
-  margin:0;
-  height:100vh;
-  overflow:hidden;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background:linear-gradient(135deg,#ffdee9,#b5fffc);
-  font-family:Arial, sans-serif;
-}
-.card{
-  background:#fff;
-  padding:25px;
-  border-radius:20px;
-  box-shadow:0 10px 25px rgba(0,0,0,.2);
-  text-align:center;
-  width:90%;
-  max-width:420px;
-  position:relative;
-  z-index:2;
-}
-button{
-  margin:10px;
-  padding:10px 22px;
-  border:none;
-  border-radius:20px;
-  background:#ff4d6d;
-  color:#fff;
-  font-size:16px;
-  cursor:pointer;
-  position:relative;
-}
-.message{
-  font-size:28px;
-  font-family:'Comic Sans MS', cursive;
-  color:#ff4d6d;
-}
-.poem{
-  margin-top:15px;
-  font-size:17px;
-  color:#333;
-  line-height:1.6;
-}
-.cat{
-  width:90px;
-  position:absolute;
-  right:-90px;
-  top:50%;
-  transform:translateY(-50%);
-}
-
-/* HEART SHOWER */
-.heart{
-  position:fixed;
-  top:-10px;
-  font-size:20px;
-  animation:fall linear forwards;
-  color:#ff4d6d;
-  z-index:1;
-}
-@keyframes fall{
-  to{
-    transform:translateY(110vh);
-    opacity:0;
-  }
-}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>For You — My Love</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
+  <div class="page">
+    <header class="topbar">
+      <div class="names-and-input">
+        <div class="names">
+          <span id="fromName">From: [Your Name]</span>
+          <span id="toName">To: <strong>[Her Name]</strong></span>
+        </div>
+        <div class="name-input">
+          <input id="nameInput" type="text" placeholder="Write your name..." aria-label="Recipient name"/>
+          <button id="nameOkBtn" class="small">OK</button>
+        </div>
+      </div>
+      <button id="heartBtn" class="icon-btn" title="Send a heart">💖</button>
+    </header>
 
-<audio id="bgMusic" loop>
-  <source src="Mann Mera – Gajendra Verma Ringtone Download - MobCup.Com.Co.mp3" type="audio/mpeg">
-</audio>
+    <main class="card">
+      <div class="left">
+        <div class="photo" id="photoPlaceholder">
+          <span>Click to add a photo</span>
+        </div>
+        <div class="controls">
+          <button id="openBtn" class="cta">Open Your Letter</button>
+          <button id="replayBtn" class="small">Replay</button>
+        </div>
+      </div>
 
-<!-- PAGE 1 -->
-<div class="card" id="page1">
-  <h2>Type Your Name 💖</h2>
-  <input id="nameInput" placeholder="Her name"
-    style="padding:10px;border-radius:10px;border:1px solid #ccc;">
-  <br>
-  <button onclick="showLove()">Yes</button>
-</div>
+      <div class="right">
+        <h1 id="title">To my future wife</h1>
 
-<!-- PAGE 2 -->
-<div class="card" id="page2" style="display:none;">
-  <div class="message" id="loveText"></div>
-  <img class="cat" src="https://media.giphy.com/media/3o6ZtpxSZbQRRnwCKQ/giphy.gif">
-  <br><br>
-  <button onclick="nextPage()">Next ❤️</button>
-</div>
+        <div id="message" class="message">
+          <!-- typed message will appear here -->
+        </div>
 
-<!-- PAGE 3 -->
-<div class="card" id="page3" style="display:none;">
-  <div class="poem">
-    Tumhare saath har subah ka sapna sajaya hai,<br>
-    Har shaam ko tumhare naam se hi bulaya hai.<br>
-    Zindagi ke har mod par tumhara haath thaam kar,<br>
-    Khud ko maine tum mein hi paaya hai.
+        <div class="extras">
+          <button id="confettiBtn" class="small">Make It Rain Confetti 🎉</button>
+          <label class="small toggle">
+            <input id="musicToggle" type="checkbox" />
+            Play music
+          </label>
+        </div>
+
+        <footer class="love-line">
+          <span id="signature">With all my heart, [Your Name] ❤️</span>
+        </footer>
+      </div>
+    </main>
+
+    <canvas id="confetti"></canvas>
+    <div id="floating-hearts"></div>
+
+    <!-- Put a file named "jeene_laga_hun.mp3" (the song) in the same folder for the background music to work.
+         The file name must match the src below. Browsers usually allow playback on an explicit user gesture (click OK). -->
+    <audio id="bgMusic" loop preload="auto" style="display:none">
+      <source src="jeene_laga_hun.mp3" type="audio/mpeg" />
+    </audio>
+
+    <script src="script.js"></script>
   </div>
-
-  <div class="poem">
-    Agar kal ka har faisla poochhe mujhse jawaab,<br>
-    Toh meri khamoshi bhi tumhara naam hi likhegi janab.<br>
-    Yeh dil aaj ek wada maangta hai tumse…
-  </div>
-
-  <h3 style="margin-top:20px;color:#ff4d6d;">
-    Will you marry me, my sweetheart? 💍❤️
-  </h3>
-
-  <button onclick="yesClicked()">Yes 💖</button>
-  <button id="noBtn" onmouseover="runAway()">No 😔</button>
-</div>
-
-<!-- PAGE 4 -->
-<div class="card" id="page4" style="display:none;">
-  <h2 style="color:#ff4d6d;font-family:'Comic Sans MS',cursive;">
-    Thank you my wife ❤️
-  </h2>
-
-  <p class="poem">
-    Aaj se tum meri mohabbat hi nahi,<br>
-    Meri zindagi, meri dua, meri har subah ho 💕<br><br>
-
-    Har saans tumhare naam ki hogi,<br>
-    Har khushi tumhare saath hogi.<br><br>
-
-    Thank you meri jaan,<br>
-    Meri duniya banne ke liye 💍❤️
-  </p>
-</div>
-
-<script>
-function showLove(){
-  const name=document.getElementById('nameInput').value.trim();
-  if(!name){ alert('Please type your name'); return; }
-  page1.style.display='none';
-  page2.style.display='block';
-  loveText.innerHTML=name+", I am yours ❤️<br>I love you 💕";
-  bgMusic.play();
-  heartShower();
-}
-
-function nextPage(){
-  page2.style.display='none';
-  page3.style.display='block';
-  heartShower();
-}
-
-function yesClicked(){
-  page3.style.display='none';
-  page4.style.display='block';
-  heartShower();
-}
-
-/* NO button running away */
-function runAway(){
-  const btn=document.getElementById('noBtn');
-  btn.style.transform=`translate(${Math.random()*200-100}px,${Math.random()*200-100}px)`;
-}
-
-/* SHORT HEART SHOWER FUNCTION */
-function heartShower(){
-  for(let i=0;i<15;i++){
-    const heart=document.createElement('div');
-    heart.className='heart';
-    heart.innerHTML='❤️';
-    heart.style.left=Math.random()*100+'vw';
-    heart.style.animationDuration=(Math.random()*2+1)+'s';
-    document.body.appendChild(heart);
-    setTimeout(()=>heart.remove(),3000);
-  }
-}
-</script>
-
 </body>
 </html>
