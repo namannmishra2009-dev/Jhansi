@@ -71,15 +71,26 @@ h1 {
     line-height: 1.7;
 }
 
+/* Gift box animation */
 .gift {
     width: 120px;
     cursor: pointer;
-    animation: bounce 2s infinite;
+    animation: bounce 2s infinite, glowGift 1.5s infinite alternate;
+    transition: transform 0.3s;
+}
+.gift:hover {
+    transform: scale(1.15) rotate(-5deg);
 }
 @keyframes bounce {
     0%,100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
+    50% { transform: translateY(-12px); }
 }
+@keyframes glowGift {
+    0% { filter: drop-shadow(0 0 5px #ff9a9e); }
+    50% { filter: drop-shadow(0 0 20px #ffd1dc); }
+    100% { filter: drop-shadow(0 0 5px #ff9a9e); }
+}
+
 #loveText {
     display: none;
     font-size: 2em;
@@ -96,17 +107,18 @@ h1 {
     background: rgba(255,255,255,0.9);
     border-radius: 25px;
     padding: 25px;
-    max-width: 380px;
+    max-width: 900px;
     margin: auto;
     box-shadow: 0 20px 40px rgba(0,0,0,0.3);
 }
 
-/* Photo blur → clear */
+/* 9:1 Photo */
 .photo {
-    width: 140px;
-    height: 140px;
-    margin: auto;
-    border-radius: 50%;
+    width: 90%;
+    max-width: 900px;
+    height: 100px;
+    margin: 20px auto;    
+    border-radius: 20px;
     overflow: hidden;
     border: 4px solid #ff9aa2;
     position: relative;
@@ -177,7 +189,7 @@ h1 {
     }
 }
 
-/* Click hearts + sparkle */
+/* Click hearts + glitter */
 .click-heart {
     position: absolute;
     font-size: 24px;
@@ -185,6 +197,23 @@ h1 {
     animation: flyUp 1.2s ease-out forwards;
     text-shadow: 0 0 3px #fff, 0 0 8px #ff66cc;
 }
+
+.heart-glitter {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: pink;
+    border-radius: 50%;
+    opacity: 0.8;
+    pointer-events: none;
+    animation: glitterFly 0.8s ease-out forwards;
+}
+
+@keyframes glitterFly {
+    0% { transform: translate(0,0) scale(1); opacity: 0.8; }
+    100% { transform: translate(var(--gx), var(--gy)) scale(0.3); opacity: 0; }
+}
+
 @keyframes flyUp {
     0% { transform: translateY(0) scale(1); opacity: 1; }
     100% { transform: translateY(-150px) scale(1.3); opacity: 0; }
@@ -215,7 +244,8 @@ h1 {
         Every firework celebrates my love for you ❤️
     </div>
 
-    <img src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif"
+    <!-- Realistic gift box GIF with bounce + glow + shake -->
+    <img src="https://media.giphy.com/media/xT0xeJpnrWC4XWblEk/giphy.gif"
          class="gift" onclick="openGift()">
 
     <div id="loveText">❤️ I LOVE YOU ❤️</div>
@@ -301,7 +331,7 @@ function snow(){
 }
 setInterval(snow,200);
 
-// Click hearts + sparkle trail
+// Click hearts + glitter trail
 document.addEventListener('click',function(e){
     const heart=document.createElement('div');
     heart.className='click-heart';
@@ -309,6 +339,21 @@ document.addEventListener('click',function(e){
     heart.style.top=(e.clientY-12)+'px';
     heart.innerText='❤️';
     document.body.appendChild(heart);
+
+    // Glitter trail
+    for(let i=0;i<5;i++){
+        const g=document.createElement('div');
+        g.className='heart-glitter';
+        g.style.left=(e.clientX-2)+'px';
+        g.style.top=(e.clientY-2)+'px';
+        const gx=(Math.random()*60-30)+'px';
+        const gy=(-Math.random()*80)+'px';
+        g.style.setProperty('--gx',gx);
+        g.style.setProperty('--gy',gy);
+        document.body.appendChild(g);
+        setTimeout(()=>g.remove(),800);
+    }
+
     setTimeout(()=>heart.remove(),1200);
 });
 </script>
