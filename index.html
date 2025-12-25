@@ -25,7 +25,7 @@ button {
     color: white;
     font-size: 16px;
     cursor: pointer;
-    margin-top: 15px;
+    margin: 10px;
 }
 
 .page {
@@ -45,16 +45,11 @@ input {
     max-width: 300px;
 }
 
-/* Page 2 */
-h1 {
-    font-size: 2.5em;
-    animation: glow 2s infinite alternate;
-}
-@keyframes glow {
-    from { text-shadow: 0 0 10px #ff9a9e; }
-    to { text-shadow: 0 0 25px #ffd1dc; }
+h1, h2 {
+    margin: 10px;
 }
 
+/* Reuse previous styles for Page 2 and 3 */
 #nameShow {
     font-size: 2em;
     animation: sparkle 1.5s infinite alternate;
@@ -65,162 +60,55 @@ h1 {
     to { text-shadow: 0 0 20px pink, 0 0 40px hotpink; }
 }
 
-.lines {
-    max-width: 600px;
-    margin: 20px auto;
-    line-height: 1.7;
-}
-
-/* Gift box animation */
 .gift {
     width: 120px;
     cursor: pointer;
     animation: bounce 2s infinite, glowGift 1.5s infinite alternate;
     transition: transform 0.3s;
 }
-.gift:hover {
-    transform: scale(1.15) rotate(-5deg);
-}
-@keyframes bounce {
-    0%,100% { transform: translateY(0); }
-    50% { transform: translateY(-12px); }
-}
-@keyframes glowGift {
-    0% { filter: drop-shadow(0 0 5px #ff9a9e); }
-    50% { filter: drop-shadow(0 0 20px #ffd1dc); }
-    100% { filter: drop-shadow(0 0 5px #ff9a9e); }
-}
+.gift:hover { transform: scale(1.15) rotate(-5deg); }
+@keyframes bounce { 0%,100%{transform:translateY(0);}50%{transform:translateY(-12px);} }
+@keyframes glowGift {0%{filter:drop-shadow(0 0 5px #ff9a9e);}50%{filter:drop-shadow(0 0 20px #ffd1dc);}100%{filter:drop-shadow(0 0 5px #ff9a9e);} }
 
-#loveText {
-    display: none;
-    font-size: 2em;
-    color: #ffb6c1;
-}
+#loveText { display:none; font-size:2em; color:#ffb6c1; }
 
-/* Page 3 */
 #page3 {
     background: linear-gradient(to bottom, #ffdde1, #ee9ca7);
     color: #b30047;
     overflow-y: auto;
 }
-.card {
-    background: rgba(255,255,255,0.9);
-    border-radius: 25px;
-    padding: 25px;
-    max-width: 900px;
-    margin: auto;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-}
+.card { background: rgba(255,255,255,0.9); border-radius:25px; padding:25px; max-width:900px; margin:auto; box-shadow:0 20px 40px rgba(0,0,0,0.3); }
+.photo { width: 90%; max-width:900px; height:100px; margin:20px auto; border-radius:20px; overflow:hidden; border:4px solid #ff9aa2; position:relative; cursor:pointer; }
+.photo img { width:100%; height:100%; object-fit:cover; filter: blur(6px); transition:filter 0.6s ease; }
+.photo.clear img { filter: blur(0); }
+.tap-note { position:absolute; bottom:-22px; left:50%; transform:translateX(-50%); font-size:0.75em; color:#b30047; background:rgba(255,255,255,0.85); padding:3px 8px; border-radius:12px; animation:pulse 1.5s infinite; }
+@keyframes pulse { 0%{opacity:0.6;}50%{opacity:1;}100%{opacity:0.6;} }
+.poem { font-family:'Pacifico', cursive; line-height:1.9; margin-top:30px; font-size:1.05em; }
 
-/* 9:1 Photo */
-.photo {
-    width: 90%;
-    max-width: 900px;
-    height: 100px;
-    margin: 20px auto;    
-    border-radius: 20px;
-    overflow: hidden;
-    border: 4px solid #ff9aa2;
-    position: relative;
-    cursor: pointer;
+/* Page 4 & 5 */
+#page4, #page5 {
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    text-align:center;
 }
+#countdown { font-size:2em; margin-top:20px; }
 
-.photo img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    filter: blur(6px);
-    transition: filter 0.6s ease;
-}
-
-.photo.clear img {
-    filter: blur(0);
-}
-
-.tap-note {
-    position: absolute;
-    bottom: -22px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 0.75em;
-    color: #b30047;
-    background: rgba(255,255,255,0.85);
-    padding: 3px 8px;
-    border-radius: 12px;
-    animation: pulse 1.5s infinite;
-}
-
-@keyframes pulse {
-    0% { opacity: 0.6; }
-    50% { opacity: 1; }
-    100% { opacity: 0.6; }
-}
-
-.poem {
-    font-family: 'Pacifico', cursive;
-    line-height: 1.9;
-    margin-top: 30px;
-    font-size: 1.05em;
-}
-
-/* Snow */
-.snow {
-    position: fixed;
-    top: -10px;
-    pointer-events: none;
-    animation: fall linear infinite;
-}
-@keyframes fall {
-    to { transform: translateY(110vh); }
-}
-
-/* Fireworks */
-.firework {
-    position: fixed;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    animation: explode 1.5s ease-out forwards;
-}
-@keyframes explode {
-    to {
-        transform: translate(var(--x), var(--y));
-        opacity: 0;
-    }
-}
+/* Snow and fireworks reused */
+.snow { position:fixed; top:-10px; pointer-events:none; animation:fall linear infinite; }
+@keyframes fall { to { transform: translateY(110vh); } }
+.firework { position: fixed; width:6px; height:6px; border-radius:50%; animation:explode 1.5s ease-out forwards; }
+@keyframes explode { to { transform: translate(var(--x), var(--y)); opacity:0; } }
 
 /* Click hearts + glitter */
-.click-heart {
-    position: absolute;
-    font-size: 24px;
-    pointer-events: none;
-    animation: flyUp 1.2s ease-out forwards;
-    text-shadow: 0 0 3px #fff, 0 0 8px #ff66cc;
-}
-
-.heart-glitter {
-    position: absolute;
-    width: 4px;
-    height: 4px;
-    background: pink;
-    border-radius: 50%;
-    opacity: 0.8;
-    pointer-events: none;
-    animation: glitterFly 0.8s ease-out forwards;
-}
-
-@keyframes glitterFly {
-    0% { transform: translate(0,0) scale(1); opacity: 0.8; }
-    100% { transform: translate(var(--gx), var(--gy)) scale(0.3); opacity: 0; }
-}
-
-@keyframes flyUp {
-    0% { transform: translateY(0) scale(1); opacity: 1; }
-    100% { transform: translateY(-150px) scale(1.3); opacity: 0; }
-}
+.click-heart { position:absolute; font-size:24px; pointer-events:none; animation:flyUp 1.2s ease-out forwards; text-shadow:0 0 3px #fff,0 0 8px #ff66cc; }
+.heart-glitter { position:absolute; width:4px; height:4px; background:pink; border-radius:50%; opacity:0.8; pointer-events:none; animation:glitterFly 0.8s ease-out forwards; }
+@keyframes glitterFly { 0%{transform:translate(0,0) scale(1);opacity:0.8;}100%{transform:translate(var(--gx),var(--gy)) scale(0.3);opacity:0;} }
+@keyframes flyUp {0%{transform:translateY(0) scale(1);opacity:1;}100%{transform:translateY(-150px) scale(1.3);opacity:0;}}
 </style>
 </head>
-
 <body>
 
 <audio id="music" loop>
@@ -238,18 +126,9 @@ h1 {
 <div class="page" id="page2">
     <h1>🎄 Merry Christmas My Love 🎄</h1>
     <div id="nameShow"></div>
-
-    <div class="lines">
-        You are my miracle, my forever, my home.<br>
-        Every firework celebrates my love for you ❤️
-    </div>
-
-    <!-- Realistic gift box GIF with bounce + glow + shake -->
-    <img src="https://media.giphy.com/media/xT0xeJpnrWC4XWblEk/giphy.gif"
-         class="gift" onclick="openGift()">
-
+    <div class="lines">You are my miracle, my forever, my home.<br>Every firework celebrates my love for you ❤️</div>
+    <img src="https://media.giphy.com/media/xT0xeJpnrWC4XWblEk/giphy.gif" class="gift" onclick="openGift()">
     <div id="loveText">❤️ I LOVE YOU ❤️</div>
-
     <button onclick="goPoem()">Something more for you 💌</button>
 </div>
 
@@ -260,53 +139,54 @@ h1 {
             <img id="herPhoto" src="her.jpg" alt="My Love">
             <div class="tap-note">Tap to see how beautiful you are 💕</div>
         </div>
-
         <div class="poem">
             Tum aaogi toh zindagi poori lagegi 💖<br>
             Tumhari muskaan se har kami bharegi 😊<br><br>
-
             Haath thaam kar chalunga har mod par 🤝<br>
             Khushi ho ya mushkil, chhodunga nahi umr bhar 🌙<br><br>
-
             Tum meri dua, mera sukoon banogi 🙏💫<br>
             Aur main tumhara saath,<br>
             har janam ka ban jaunga ❤️♾️
         </div>
+        <button onclick="goQuestion()">Next 💌</button>
     </div>
+</div>
+
+<!-- Page 4 -->
+<div class="page" id="page4">
+    <h1>Are you happy with me, my wife? 💖</h1>
+    <div>
+        <button onclick="goHug()">Yes</button>
+        <button onclick="goHug()">Absolutely I am yours</button>
+    </div>
+</div>
+
+<!-- Page 5 -->
+<div class="page" id="page5">
+    <h1>I love you too darling 💕<br>I am always yours.</h1>
+    <h2>We will hug after 2 January</h2>
+    <div id="countdown"></div>
 </div>
 
 <script>
 function start() {
     const name = nameInput.value.trim();
     if (!name) return;
-
-    page1.style.display = "none";
-    page2.style.display = "flex";
-    nameShow.innerHTML = "For my future wife, <b>" + name + "</b> ✨";
-
-    if (music.paused) {
-        music.currentTime = 0;
-        music.play().catch(()=>{});
-    }
+    page1.style.display="none";
+    page2.style.display="flex";
+    nameShow.innerHTML="For my future wife, <b>"+name+"</b> ✨";
+    if(music.paused){music.currentTime=0; music.play().catch(()=>{});}
     setInterval(firework,450);
 }
 
-function openGift() {
-    loveText.style.display = "block";
-}
+function openGift(){ loveText.style.display="block"; }
+function goPoem(){ page2.style.display="none"; page3.style.display="flex"; }
+function revealPhoto(){ document.querySelector('.photo').classList.add('clear'); document.querySelector('.tap-note').innerText="You’re perfect ❤️"; }
+function goQuestion(){ page3.style.display="none"; page4.style.display="flex"; }
+function goHug(){ page4.style.display="none"; page5.style.display="flex"; startCountdown(); }
 
-function goPoem() {
-    page2.style.display = "none";
-    page3.style.display = "flex";
-}
-
-function revealPhoto() {
-    document.querySelector('.photo').classList.add('clear');
-    document.querySelector('.tap-note').innerText = "You’re perfect ❤️";
-}
-
-function firework() {
-    for (let i=0;i<18;i++){
+function firework(){
+    for(let i=0;i<18;i++){
         const f=document.createElement("div");
         f.className="firework";
         f.style.left=Math.random()*innerWidth+"px";
@@ -339,8 +219,6 @@ document.addEventListener('click',function(e){
     heart.style.top=(e.clientY-12)+'px';
     heart.innerText='❤️';
     document.body.appendChild(heart);
-
-    // Glitter trail
     for(let i=0;i<5;i++){
         const g=document.createElement('div');
         g.className='heart-glitter';
@@ -353,10 +231,26 @@ document.addEventListener('click',function(e){
         document.body.appendChild(g);
         setTimeout(()=>g.remove(),800);
     }
-
     setTimeout(()=>heart.remove(),1200);
 });
-</script>
 
+// Countdown to 2 January
+function startCountdown(){
+    const countdownEl = document.getElementById("countdown");
+    const targetDate = new Date(new Date().getFullYear(),0,2,0,0,0); // 2 Jan
+    function updateCountdown(){
+        const now = new Date();
+        let diff = targetDate - now;
+        if(diff<0) diff=0;
+        const d=Math.floor(diff/1000/60/60/24);
+        const h=Math.floor(diff/1000/60/60)%24;
+        const m=Math.floor(diff/1000/60)%60;
+        const s=Math.floor(diff/1000)%60;
+        countdownEl.innerText=`${d}d ${h}h ${m}m ${s}s`;
+    }
+    updateCountdown();
+    setInterval(updateCountdown,1000);
+}
+</script>
 </body>
 </html>
