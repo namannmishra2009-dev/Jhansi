@@ -127,6 +127,7 @@ h1, h2 { margin: 10px; }
     <div id="nameShow"></div>
     <div class="lines">You are my miracle, my forever, my home.<br>Every firework celebrates my love for you ❤️</div>
     <img src="https://media.giphy.com/media/xT0xeJpnrWC4XWblEk/giphy.gif" class="gift" onclick="openGift()">
+    <div style="font-size:0.9em; color:#ffd1dc; margin-top:8px;">Tap the gift 🎁 to see a surprise ❤️</div>
     <div id="loveText">❤️ I LOVE YOU ❤️</div>
     <button onclick="goPoem()">Something more for you 💌</button>
 </div>
@@ -177,6 +178,7 @@ function start() {
     if(music.paused){music.currentTime=0; music.play().catch(()=>{});}
     setInterval(firework,450);
 }
+
 function openGift(){ loveText.style.display="block"; }
 function goPoem(){ page2.style.display="none"; page3.style.display="flex"; }
 function revealPhoto(){ document.querySelector('.photo').classList.add('clear'); document.querySelector('.tap-note').innerText="You’re perfect ❤️"; }
@@ -232,26 +234,29 @@ document.addEventListener('click',function(e){
     setTimeout(()=>heart.remove(),1200);
 });
 
-// Countdown to next 2 January
+// Countdown to next 2 January (robust)
 function startCountdown(){
     const countdownEl = document.getElementById("countdown");
-    const now = new Date();
-    let year = now.getFullYear();
-    if (now > new Date(year,0,2,0,0,0)) { year++; } // Next year if passed
-    const targetDate = new Date(year,0,2,0,0,0);
 
     function updateCountdown(){
         const now = new Date();
+        let year = now.getFullYear();
+        if(now >= new Date(`${year}-01-02T00:00:00`)){ year++; }
+        const targetDate = new Date(`${year}-01-02T00:00:00`);
+
         let diff = targetDate - now;
-        if(diff<0) diff=0;
-        const d=Math.floor(diff/1000/60/60/24);
-        const h=Math.floor(diff/1000/60/60)%24;
-        const m=Math.floor(diff/1000/60)%60;
-        const s=Math.floor(diff/1000)%60;
-        countdownEl.innerText=`${d}d ${h}h ${m}m ${s}s`;
+        if(diff < 0) diff = 0;
+
+        const d = Math.floor(diff / 1000 / 60 / 60 / 24);
+        const h = Math.floor(diff / 1000 / 60 / 60) % 24;
+        const m = Math.floor(diff / 1000 / 60) % 60;
+        const s = Math.floor(diff / 1000) % 60;
+
+        countdownEl.innerText = `${d}d ${h}h ${m}m ${s}s`;
     }
+
     updateCountdown();
-    setInterval(updateCountdown,1000);
+    setInterval(updateCountdown, 1000);
 }
 </script>
 </body>
