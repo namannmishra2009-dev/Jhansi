@@ -45,11 +45,9 @@ input {
     max-width: 300px;
 }
 
-h1, h2 {
-    margin: 10px;
-}
+h1, h2 { margin: 10px; }
 
-/* Reuse previous styles for Page 2 and 3 */
+/* Page 2 & gift styles */
 #nameShow {
     font-size: 2em;
     animation: sparkle 1.5s infinite alternate;
@@ -72,6 +70,7 @@ h1, h2 {
 
 #loveText { display:none; font-size:2em; color:#ffb6c1; }
 
+/* Page 3 */
 #page3 {
     background: linear-gradient(to bottom, #ffdde1, #ee9ca7);
     color: #b30047;
@@ -96,7 +95,7 @@ h1, h2 {
 }
 #countdown { font-size:2em; margin-top:20px; }
 
-/* Snow and fireworks reused */
+/* Snow and fireworks */
 .snow { position:fixed; top:-10px; pointer-events:none; animation:fall linear infinite; }
 @keyframes fall { to { transform: translateY(110vh); } }
 .firework { position: fixed; width:6px; height:6px; border-radius:50%; animation:explode 1.5s ease-out forwards; }
@@ -178,7 +177,6 @@ function start() {
     if(music.paused){music.currentTime=0; music.play().catch(()=>{});}
     setInterval(firework,450);
 }
-
 function openGift(){ loveText.style.display="block"; }
 function goPoem(){ page2.style.display="none"; page3.style.display="flex"; }
 function revealPhoto(){ document.querySelector('.photo').classList.add('clear'); document.querySelector('.tap-note').innerText="You’re perfect ❤️"; }
@@ -234,10 +232,14 @@ document.addEventListener('click',function(e){
     setTimeout(()=>heart.remove(),1200);
 });
 
-// Countdown to 2 January
+// Countdown to next 2 January
 function startCountdown(){
     const countdownEl = document.getElementById("countdown");
-    const targetDate = new Date(new Date().getFullYear(),0,2,0,0,0); // 2 Jan
+    const now = new Date();
+    let year = now.getFullYear();
+    if (now > new Date(year,0,2,0,0,0)) { year++; } // Next year if passed
+    const targetDate = new Date(year,0,2,0,0,0);
+
     function updateCountdown(){
         const now = new Date();
         let diff = targetDate - now;
